@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<title>Google Fonts Preview</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<style>
+		#content {
+			margin: 0 auto;
+			text-align: center;
+			width: auto;
+			max-width: 1600px;
+		}
+		.flex {
+
+			/* flexbox setup */
+			display: -webkit-flex;
+			/*-webkit-flex-direction: row;*/
+
+			display: flex;
+			/*flex-direction: row; */
+			justify-content: center;
+			flex-wrap: wrap;
+		}
+		.flex > div
+		{
+			-webkit-flex: 1 1 auto;
+			flex: 1 1 auto;
+
+			width: 500px; /* To make the transition work nicely.  (Transitions to/from
+			"width:auto" are buggy in Gecko and Webkit, at least.
+			See http://bugzil.la/731886 for more info.) */
+
+			-webkit-transition: width 0.7s ease-out;
+			transition: width 0.7s ease-out;
+		}
+		div.box {
+			border: 1px solid #cccccc;
+			padding: 10px;
+			margin: 5px;
+			text-align: left;
+
+		}
+		h1 {
+			font-size: 32px;
+			text-align: center;
+		}
+		p.texto {
+			font-size: 24px;
+			margin: 0px;
+			text-align: center;
+			word-wrap: break-word;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="loading">Cargando Google Fonts Preview...</div>
+	<div id="content" class=flex></div>
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script>
+	$(function() {
+		var i = 0;
+		// var textDisplay1 = "A B C D E F G H I J K L M N Ñ O P Q R S T U V W X Y Z";
+		var textDisplay1 = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
+		// var textDisplay2 = "a b c d e f g h i j k l m n ñ o p q r s t u v w x y z";
+		var textDisplay2 = "abcdefghijklmnñopqrstuvwxyz";
+		// var textDisplay3 = "1 2 3 4 5 6 7 8 9 0 - á é í ó ú - Á É Í Ó Ú";
+		var textDisplay3 = "1234567890 - áéíóú - ÁÉÍÓÚ";
+		var textDisplay4 = "The Quick Brown Fox Jumped Over The Lazy Dog";
+
+		$.getJSON('https://raw.githubusercontent.com/jonathantneal/google-fonts-complete/master/google-fonts.json', function(fonts) {
+		$.each(fonts, function(k, v) {
+			  
+			// CATEGORIES: display | handwriting | monospace | sans-serif | serif
+			// if (v.category !== 'display') return; //filter only display fonts. replace with your filter condition(s)
+			// if (v.category !== 'handwriting') return; //filter only handwriting fonts. replace with your filter condition(s)
+			// if (v.category !== 'monospace') return; //filter only monospace fonts. replace with your filter condition(s)
+			// if (v.category !== 'sans-serif') return; //filter sans sans-serif fonts. replace with your filter condition(s)
+			// if (v.category !== 'serif') return; //filter only serif fonts. replace with your filter condition(s)
+			i++;
+			var css = `@import url('https://fonts.googleapis.com/css?family=${k}');`;
+			$('<style/>').append(css).appendTo(document.head);
+
+			$(`<div class="box" id="div_${i}"/>`).text(`${v.category}`).appendTo($('#content'));
+
+			$(`<h1 id="h1-${i}" style="font-family: '${k}'"/>`).text(`[${i}] ${k}`).appendTo($('#div_'+i));
+
+			$(`<p class="texto" style="font-family: '${k}'"/>`).text(`${textDisplay1}`).appendTo($('#div_'+i));
+			$(`<p class="texto" style="font-family: '${k}'"/>`).text(`${textDisplay2}`).appendTo($('#div_'+i));
+			$(`<p class="texto" style="font-family: '${k}'"/>`).text(`${textDisplay3}`).appendTo($('#div_'+i));
+			$(`<p class="texto" style="font-family: '${k}'"/>`).text(`${textDisplay4}`).appendTo($('#div_'+i));
+			// $(`<hr/>`).appendTo($('#div_'+i));
+		});
+
+		$('#loading').html('<h1>Google Fonts Preview </h1>');
+	});
+	});
+	</script>
+</body>
+</html>
